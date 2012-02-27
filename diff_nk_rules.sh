@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# check NIKSUN rule sets for changes
+# check Snort rule sets for changes
 
 PATH=/bin:/usr/sbin:/usr/bin
 
@@ -8,11 +8,11 @@ prg=`basename $0 .sh`
 log=`dirname $0`/${prg}.log
 old_sl=/var/tmp/${prg}/current
 new_d=/var/tmp/${prg}/`date +%s`
-sig_url="http://supportnet.niksun.com/sig"
-sig_f="niksun-rules-2_9.tgz"
+sig_url="http://<CHANGE-ME>.com"
+sig_f="snort-rules-2_9.tgz"
 
 info () { echo "INFO: `date` $@"; }
-fatal () { echo "FATAL: `date` $@"; echo "Fatal Error" | mail -s "Error in ${prg}" phunold@niksun.com; exit 1; }
+fatal () { echo "FATAL: `date` $@"; echo "Fatal Error" | mail -s "Error in ${prg}" <you>@example.com; exit 1; }
 
 (
  
@@ -20,7 +20,7 @@ fatal () { echo "FATAL: `date` $@"; echo "Fatal Error" | mail -s "Error in ${prg
 [ -d ${new_d} ] || mkdir -p ${new_d}
 info "changing directory: ${new_d}"
 cd ${new_d}
-#download NIKSUN rules
+#download rules
 info "downloading: ${sig_url}/${sig_f}"
 wget -q ${sig_url}/${sig_f} || fatal "could not download file from: ${sig_url}"
 
@@ -41,7 +41,7 @@ else
 	diff -wr ${old_sl} ${new_d}
 
 	if [ $? -ne 0 ]; then
-		diff -wr ${old_sl} ${new_d} | mail -s "NIKSUN rules update" phunold@niksun.com
+		diff -wr ${old_sl} ${new_d} | mail -s "rules updated" <me>@example.com 
 		info "signature updates found, sent email"
 		rm -f ${old_sl}
 		ln -s ${new_d} ${old_sl}

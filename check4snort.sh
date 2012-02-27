@@ -13,7 +13,7 @@ info () { echo "`date` $@"; }
 yum -q info snort
 
 if [ $? -eq 0 ]; then
-	echo "Snort available" | mail -s "snort update" phunold@niksun.com
+	echo "Snort available" | mail -s "snort update" me@example.com
 	info "snort available"
 else
 	info "snort not available"
